@@ -1,0 +1,3 @@
+Aquí se alojan todos los archivos de productos.
+
+Ya sean Excel, Modelos de ML, Plantillas procesadas, etc.
