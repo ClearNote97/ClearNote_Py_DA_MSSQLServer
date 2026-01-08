@@ -53,9 +53,9 @@ Esta plantilla está diseñada para:
 ```bash
 cd tu_ruta/
 
-git clone https://github.com/ClearNote97/ClearNote_Py_DA.git
+git clone https://github.com/ClearNote97/ClearNote_Py_DA_MSSQLServer.git
 
-cd ClearNote_Py_DA
+cd ClearNote_Py_DA_MSSQLServer
 
 ```
 ### 2. Desvincula el repositorio original (opcional)
@@ -72,7 +72,7 @@ cd ~
 
 cd tu_ruta/
 
-mv ClearNote_Py_DA nuevo_nombre
+mv ClearNote_Py_DA_MSSQLServer nuevo_nombre
 
 cd nuevo_nombre
 ```
