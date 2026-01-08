@@ -53,11 +53,9 @@ Esta plantilla está diseñada para:
 ```bash
 cd tu_ruta/
 
-git clone https://github.com/tu_usuario/ClearNote_Py_DA_MSSQLServer.git
+git clone https://github.com/ClearNote97/ClearNote_Py_DA.git
 
-mv ClearNote_Py_DA_MSSQLServer nombre_nuevo_proyecto
-
-cd nombre_nuevo_proyecto
+cd ClearNote_Py_DA
 
 ```
 ### 2. Desvincula el repositorio original (opcional)
@@ -65,6 +63,23 @@ Este paso elimina la conexión con el repositorio de origen en GitHub, para que 
 
 ```bash
 rm -rf .git
+```
+
+Se le cambia el nombre a la carpeta, para que se diferencie de la plantilla original:
+
+```bash
+cd ~
+
+cd tu_ruta/
+
+mv ClearNote_Py_DA nuevo_nombre
+
+cd nuevo_nombre
+```
+
+Se inicia un nuevo proyecto con GIT:
+
+```bash
 git init
 git add .
 git commit -m "Proyecto inicial basado en plantilla ClearNote Py DA con Conexión a MS SQL Server"

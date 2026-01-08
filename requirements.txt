@@ -17,7 +17,6 @@ ipython-sql
 # Jupyter and interactive computing
 ipython
 ipynbname
-jupyter
 
 # Utility libraries
 python-dateutil
