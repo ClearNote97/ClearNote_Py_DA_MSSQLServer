@@ -1,5 +1,5 @@
 {
-  "name": "clearnote-py-da",
+  "name": "clearnote-py-da-sql",
   // 🐳 Imagen base de Dev Containers (incluye VS Code + Python)
   "build": {
     "dockerfile": "Dockerfile",

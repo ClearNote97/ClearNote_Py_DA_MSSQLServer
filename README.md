@@ -1,287 +1,213 @@
-# 🐍 Plantilla Dev Container para Ciencia de Datos en Python con MS SQL Server — ClearNote Py DA
+# 🐍 ClearNote Py DA SQL — Plantilla Dev Container para análisis de datos en Python con SQL
 
-Bienvenido a la plantilla oficial **ClearNote Py DA**, un entorno ligero, reproducible y altamente portable para desarrollo de análisis de datos con Python y MS SQL Server dentro de contenedores usando **Visual Studio Code + Dev Containers + Docker + uv**.
+Plantilla **reproducible, ligera y portable** para análisis de datos en Python **con conexión a bases
+de datos SQL**, sobre **VS Code + Dev Containers + Docker + `uv`**. Entorno aislado y consistente, sin
+instalar el toolchain del proyecto en tu máquina anfitriona.
 
-## 📁 Estructura del Proyecto
+> **Armada con SQL Server como ejemplo activo.** PostgreSQL y Oracle vienen **comentados** en
+> `src/db/connection.py`, `requirements.txt`, `.env.example` y el `Dockerfile` — cambiar de motor es
+> descomentar (ver [Conexión a SQL](#-conexión-a-sql)).
 
-```
-.
-├── data/                    # Directorio para datos
-│   ├── other/              # Datos de entrada sin procesar en formatos distintos a SQL
-│   ├── sql/                # Consultas y utilidades SQL
-├── notebooks/              # Jupyter notebooks
-│   └── Notebook.py        # Notebook principal en formato .py
-├── output/                 # Datos procesados y resultados
-├── scripts/               
-│   └── run_pipeline.py    # Script para ejecutar el pipeline completo
-├── src/                    # Código fuente del proyecto
-│   ├── config/            # Configuraciones
-│   ├── pipelines/         # Pipelines de datos
-│   └── utils/             # Funciones auxiliares
-└── requirements.txt        # Dependencias del proyecto (Etapa 1)
-```
+> **¿Buscas cómo trabajamos día a día (la dinámica Helix ⇄ tú)?** Eso vive en **[`README_HELIX.md`](./README_HELIX.md)**.
+> Este archivo es el *qué es y cómo se instala*.
 
-## 🎯 Propósito
+---
 
-Esta plantilla está diseñada para:
+## ✅ Requisitos previos
 
-- Ejecutar proyectos de ciencia de datos **sin instalar nada en tu sistema anfitrión**
-- Trabajar con MS SQL Server y Python de forma integrada
-- Usar `.py` y `.ipynb` de forma interactiva con **Jupyter Interactive Window**
-- Mantener una estructura organizada para proyectos de análisis de datos
-- Gestionar dependencias con **uv**, un gestor moderno y rápido para proyectos Python
-- Facilitar la transición desde un flujo clásico con `requirements.txt` hacia uno más moderno con `pyproject.toml` + `uv.lock`
-- Trabajar en carpetas sincronizadas (como OneDrive) sin conflictos de permisos
+- **Docker** en ejecución (en Windows, vía **WSL2**).
+- **Visual Studio Code** con la extensión **Dev Containers** (`ms-vscode-remote.remote-containers`).
+- **Git**.
 
-## 🧱 Estructura del entorno
+No necesitas Python, `uv` ni el driver ODBC instalados en el host: viven dentro del contenedor.
 
-### Contenedor base
+---
 
-- **Imagen base**: `python:3.14.5-slim-bookworm`
-- **Paquetes del sistema**:
-  - `build-essential`
-  - `ca-certificates`
-  - `curl`
-  - `gcc`, `g++`
-  - `gnupg`
-  - `unixodbc-dev`
-  - `msodbcsql17`, `mssql-tools`
+## 🚀 Instalación y uso
 
-### Gestión de dependencias
+### 1. Clona el repositorio
 
-- **Gestor de paquetes/proyectos**: `uv`
-- **Versión fijada**: `0.11.13`
-- **Instalación de uv**: copiado desde la imagen oficial de Astral
-- **Entorno virtual del proyecto**: `.venv/`
-
-### Editor y experiencia de desarrollo
-
-- **Editor principal**: Visual Studio Code
-- **Extensiones preconfiguradas**:
-  - Python
-  - Pylance
-  - Ruff
-  - Jupyter
-  - Better TOML
-  - GitHub Copilot
-  - Path Intellisense
-  - Material Icon Theme
-
-### Intérprete configurado
-
-La plantilla apunta automáticamente al intérprete dentro del entorno virtual:
+**Por HTTPS:**
 
 ```bash
-${workspaceFolder}/.venv/bin/python
+git clone https://github.com/ClearNote97/ClearNote_Py_DA_SQL.git
+cd ClearNote_Py_DA_SQL
 ```
 
-## ⚙️ Flujo de inicialización del proyecto
-
-Cuando el contenedor se crea por primera vez, el `postCreateCommand` detecta automáticamente el tipo de proyecto y actúa en consecuencia:
-
-### Caso 1: ya existe `pyproject.toml`
-
-- Si también existe `uv.lock`:
-  - ejecuta `uv sync --locked`
-- Si no existe `uv.lock`:
-  - ejecuta `uv lock && uv sync`
-
-### Caso 2: todavía existe solo `requirements.txt`
-
-- ejecuta `uv init --no-package --no-workspace .`
-- elimina el archivo `main.py` generado por defecto
-- importa dependencias desde `requirements.txt` con:
-  - `uv add -r requirements.txt`
-
-### Caso 3: no existe ninguno
-
-- el proceso falla y muestra un mensaje indicando que falta `pyproject.toml` o `requirements.txt`
-
-## 📂 Filosofía de esta plantilla
-
-Esta plantilla adopta un enfoque de transición en dos etapas:
-
-### Etapa 1: compatibilidad con `requirements.txt`
-
-Ideal para proyectos existentes que todavía no migran por completo a `pyproject.toml`.
-
-Permite:
-
-- seguir usando la estructura tradicional
-- empezar a trabajar con `uv`
-- crear la base para migrar a lockfiles reproducibles
-
-### Etapa 2: migración total a `pyproject.toml` + `uv.lock`
-
-Recomendada para nuevos proyectos o para consolidar entornos reproducibles.
-
-Ventajas:
-
-- mejor manejo de dependencias
-- lockfile reproducible
-- flujo más moderno y mantenible
-- integración más natural con tooling actual de Python
-
-## 🚀 Instrucciones de uso
-
-### 1. Clona este repositorio
+**Por SSH:**
 
 ```bash
-cd tu_ruta/
-git clone https://github.com/ClearNote97/ClearNote_Py_DA_MSSQLServer.git
-cd ClearNote_Py_DA_MSSQLServer
+git clone git@github.com:ClearNote97/ClearNote_Py_DA_SQL.git
+cd ClearNote_Py_DA_SQL
 ```
 
-### 2. Desvincula el repositorio original (opcional)
+### 2. Elimina el historial de la plantilla
 
-Si quieres usar esta plantilla como base para un proyecto nuevo:
+Esto es una **plantilla, no un proyecto en sí**: soltar el historial git que trae es **obligatorio**.
 
 ```bash
 rm -rf .git
 ```
 
-Luego renombra la carpeta:
+### 3. Renombra la carpeta
+
+Ponle el nombre de tu proyecto (reemplaza `nuevo_nombre`):
 
 ```bash
 cd ..
-mv ClearNote_Py_DA_MSSQLServer nuevo_nombre
+mv ClearNote_Py_DA_SQL nuevo_nombre
 cd nuevo_nombre
 ```
 
-Inicializa tu nuevo repositorio:
+### 4. Inicializa tu propio repositorio *(opcional)*
 
 ```bash
 git init
 git add .
-git commit -m "Proyecto inicial basado en plantilla ClearNote Py DA con Conexión a MS SQL Server"
+git commit -m "Proyecto inicial basado en la plantilla ClearNote Py DA SQL"
 ```
 
-Y conecta tu propio repositorio si lo deseas:
+Y, si quieres conectarlo a un remoto:
 
 ```bash
 git remote add origin https://github.com/tu_usuario/tu_repositorio.git
 git push -u origin main
 ```
 
-### 3. Abre la carpeta en Visual Studio Code
+### 5. Abre en el contenedor
 
-Cuando VS Code detecte la configuración, selecciona:
+En VS Code: **Ctrl+Shift+P → Reopen in Container**. Espera a que termine el `postCreateCommand`
+(prepara `.venv` e instala/sincroniza dependencias con `uv`). **No corras `pip install` a mano.**
 
-**Reopen in Container**
+---
 
-### 4. Espera la inicialización automática
+## ⚙️ Especificaciones técnicas
 
-Durante la creación del contenedor, la plantilla:
+### Contenedor
 
-- instala `uv`
-- detecta si trabajas con `pyproject.toml` o `requirements.txt`
-- prepara el entorno virtual `.venv`
-- instala o sincroniza dependencias
-
-No necesitas correr `pip install` manualmente.
-
-## 🧪 ¿Qué puedes hacer aquí?
-
-| Tarea | Disponible ✅ |
+| | |
 |---|---|
-| Ejecutar scripts `.py` | ✅ |
-| Usar notebooks `.ipynb` | ✅ |
-| Ejecutar código por bloques | ✅ |
-| Consultas SQL interactivas | ✅ |
-| Conexión a MS SQL Server | ✅ |
-| Pipelines de datos automatizados | ✅ |
-| Formatear código automáticamente con Ruff | ✅ |
-| Organizar imports | ✅ |
-| Hacer análisis reproducibles | ✅ |
-| Depurar scripts con breakpoints | ✅ |
-| Gestionar dependencias con `uv` | ✅ |
-| Trabajar dentro de contenedor aislado | ✅ |
-| Usar Git y control de versiones | ✅ |
+| Imagen base | `python:3.14.5-slim-bookworm` (Debian 12) |
+| Paquetes de sistema | `build-essential`, `ca-certificates`, `curl`, `gnupg`, `unixodbc-dev` |
+| Driver SQL Server | `msodbcsql17` (repo de Microsoft para Debian 12, instalado vía *keyring*) |
+| Gestor de dependencias | `uv` `0.11.13` (copiado desde `ghcr.io/astral-sh/uv`) |
+| Usuario | `root` |
+| Workspace | `/workspaces/<nombre-de-la-carpeta>` |
+| Entorno virtual | `.venv/` (intérprete: `${workspaceFolder}/.venv/bin/python`) |
 
-## 📊 Componentes Principales
+### Gestión de dependencias con `uv`
 
-### Pipeline de Datos (`src/pipelines/`)
-- `main_pipeline.py`: Orquesta el flujo completo de procesamiento de datos
+`uv` reemplaza a `pip` como herramienta de trabajo. Al crear el contenedor, el `postCreateCommand`
+detecta el estado del proyecto y actúa solo:
 
-### Utilidades SQL (`data/sql/`)
-- `main_query.sql`: Consultas SQL principales
-- `sql_utils.py`: Funciones auxiliares para interactuar con SQL Server
+| Estado del repo | Qué ejecuta |
+|---|---|
+| Hay `pyproject.toml` **y** `uv.lock` | `uv sync --locked` |
+| Hay `pyproject.toml` **sin** `uv.lock` | `uv lock && uv sync` |
+| Solo `requirements.txt` | `uv init --no-package --no-workspace .` → borra `main.py` → `uv add -r requirements.txt` |
+| No hay ninguno | Falla con mensaje de error |
 
-### Utilidades de Datos (`src/utils/`)
-- Módulos para limpieza, transformación y exportación de datos
-- Funciones reutilizables para manipulación de datasets
-- Herramientas para estandarización y formateo de variables
+> Cuando `uv.lock` se genere o cambie, **se versiona** — es la garantía de reproducibilidad.
 
-## 📦 Sobre `uv` en esta plantilla
+### Editor (VS Code)
 
-`uv` reemplaza el uso tradicional de `pip` como comando principal del flujo de trabajo.
+- **Formateo y linting con Ruff** (al guardar: `fixAll` + `organizeImports`).
+- **Type checking**: Pylance en modo `basic`, con *inlay hints*.
+- **Extensiones**: Python, Pylance, Ruff, Jupyter, Even Better TOML, GitHub Copilot, Path Intellisense, Material Icon Theme.
 
-### ¿Qué aporta?
+---
 
-- mayor velocidad
-- manejo moderno de dependencias
-- lockfiles reproducibles
-- integración con proyectos Python actuales
-- mejor experiencia dentro de contenedores reproducibles
+## 🗄️ Conexión a SQL
 
-### Importante
+El estándar (detallado en [`README_HELIX.md`](./README_HELIX.md) §11) es **solo SQLAlchemy**:
 
-Aunque la imagen base de Python pueda traer `pip` instalado internamente, esta plantilla **no lo usa como herramienta de trabajo**. Toda la gestión del entorno y dependencias se realiza con `uv`.
+1. **Credenciales en `.env`** → las lee `src/config/config.py` (prefijo por motor, `MSSQL_`; nunca `DB_`).
+2. **Fábrica de engine en `src/db/connection.py`** → `get_engine_mssql()` arma la URL con `URL.create()`.
+3. **Consultas en `data/sql/*.sql`** (nunca SQL embebido en Python).
+4. **Ejecución con pandas** → `pd.read_sql(query, engine)`.
 
-## 🧹 Archivos importantes del proyecto
+**Cambiar de motor (PostgreSQL / Oracle):** vienen comentados. Para activar uno:
 
-### Deben versionarse
+1. Descomenta su función en `src/db/connection.py` (`get_engine_postgres()` / `get_engine_oracle()`).
+2. Descomenta su paquete en `requirements.txt` (`psycopg[binary]` / `oracledb`).
+3. Descomenta su grupo de variables en `config.py` y `.env`.
+4. Si aplica, descomenta sus *system deps* en `.devcontainer/Dockerfile`.
 
-- `README.md`
-- `.devcontainer/devcontainer.json`
-- `.devcontainer/Dockerfile`
-- `requirements.txt` o `pyproject.toml`
-- `uv.lock` cuando exista
+| Motor | Dialecto | Paquete | System deps |
+|---|---|---|---|
+| SQL Server *(activo)* | `mssql+pyodbc` | `pyodbc` | `unixodbc-dev` + `msodbcsql17` |
+| PostgreSQL | `postgresql+psycopg` | `psycopg[binary]` | ninguna (binary) |
+| Oracle | `oracle+oracledb` | `oracledb` | ninguna en modo *thin* |
 
-### No deben versionarse
+> **`MSSQL_NAME` y `MSSQL_PORT` son opcionales**: si los dejas vacíos, `URL.create()` los omite (útil con un DataWarehouse sin una única base de datos).
+> La conexión por **túnel SSH** queda comentada (ver `README_HELIX.md` §11 Caso B); por defecto usamos conexión directa.
 
-- `.venv/`
-- `__pycache__/`
-- `*.pyc`
-- `.env`
+---
 
-Un `.gitignore` mínimo recomendado sería:
+## 📂 Estructura del proyecto
+
+```
+.
+├── .devcontainer/      # Dockerfile + devcontainer.json (entorno + driver ODBC)
+├── data/
+│   ├── sql/            # catálogo de consultas .sql (solo .sql, sin código)
+│   └── other/          # datos en formatos no-SQL (.csv, .parquet, .xlsx, …)
+├── docs/               # documentación: bitácora de decisiones, diccionario de datos
+├── notebooks/          # exploración y prototipado (.py / .ipynb)
+├── scripts/            # run_pipeline.py (punto de entrada del pipeline)
+├── sandbox/            # experimentos desechables — su contenido NO se versiona
+├── tests/              # verificación formal (pytest) — el gate
+├── output/             # entregable final, ya verificado
+├── src/
+│   ├── config/         # config.py (lee credenciales del .env)
+│   ├── db/             # connection.py (fábrica de engines SQLAlchemy)
+│   ├── pipelines/      # lógica del pipeline
+│   └── utils/          # utilidades de datos (limpieza, formato, índices)
+├── .env.example        # plantilla de variables de entorno (copiar a .env)
+├── requirements.txt    # dependencias (base para pyproject.toml + uv.lock)
+├── README.md           # este archivo
+└── README_HELIX.md     # el contrato de trabajo (dinámica Helix ⇄ tú)
+```
+
+**Flujo de trabajo:** `sandbox/` (tanteo) → `tests/` (gate) → `output/` (solo lo verificado). Cada carpeta tiene su `README.md`.
+
+---
+
+## 🧹 Qué se versiona y qué no
+
+**Se versiona:** `README.md`, `README_HELIX.md`, `.devcontainer/*`, `requirements.txt` (o `pyproject.toml`), `uv.lock` cuando exista, `tests/`, `output/`, los `README.md` de cada carpeta, `data/sql/*.sql`.
+
+**No se versiona:** `.venv/`, `__pycache__/`, `*.pyc`, `.env`, y el **contenido** de `sandbox/`.
 
 ```gitignore
 .env
 __pycache__/
 *.pyc
 .venv/
+
+# sandbox/: la carpeta y su README viajan; el contenido (experimentos) no se versiona
+sandbox/*
+!sandbox/README.md
 ```
 
-## 🔍 Recomendaciones
+> El `.env` **nunca** se versiona. Usa `.env.example` como referencia.
 
-### Configuración del Entorno
-- Configura las credenciales de SQL Server en `.env`
-- Utiliza las funciones predefinidas en `src/utils/` para operaciones comunes
-- Si usas notebooks o ejecución interactiva, valida que `ipykernel` esté incluido en tus dependencias
+---
 
-### Ejecución del Pipeline
-1. Coloca tus datos de entrada en `data/other/` o `data/sql/`
-2. Ajusta las consultas SQL en `data/sql/main_query.sql`
-3. Configura los parámetros en `src/config/config.py`
-4. Ejecuta el pipeline completo con `python scripts/run_pipeline.py`
+## 📦 Dependencias incluidas
 
-### Buenas Prácticas
-- Mantén las consultas SQL en archivos `.sql` separados
-- Documenta las transformaciones de datos en los notebooks
-- Utiliza el control de versiones para los cambios en el código
-- Mantén los datos sensibles fuera del repositorio
-- Si ya migraste a `uv.lock`, consérvalo en el repositorio
+- **Análisis de datos:** `pandas`, `numpy`, `pyarrow`
+- **Excel:** `openpyxl`, `xlsxwriter`, `xlrd`, `fastexcel`
+- **Base de datos:** `sqlalchemy`, `pyodbc` (SQL Server) — `psycopg[binary]` / `oracledb` comentados
+- **Notebooks / interactivo:** `ipython`, `ipykernel`, `ipynbname`
+- **Utilidades:** `python-dateutil`, `python-dotenv`
+
+---
 
 ## ⚖️ Licencia
 
-Distribuido bajo la licencia [MIT](https://opensource.org/license/MIT). Puedes copiar, modificar y reutilizar libremente esta plantilla.
+Distribuido bajo licencia [MIT](https://opensource.org/license/MIT). Puedes copiar, modificar y reutilizar libremente esta plantilla.
 
 ## ✍️ Autor
 
 **MSc. Nicolás Enrique Valencia Santiago**
-
-## 📝 Nota final
-
-Este `README.md` está pensado como base y debe adaptarse según el tipo de proyecto que se construya a partir de esta plantilla.

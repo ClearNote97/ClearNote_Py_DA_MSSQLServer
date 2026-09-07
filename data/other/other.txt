@@ -1,1 +1,0 @@
-Aquí se alojan todos los archivos, documentos, plantillas, etc. que no sean SQL

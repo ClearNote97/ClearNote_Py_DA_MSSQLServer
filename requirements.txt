@@ -1,25 +1,26 @@
 # Data manipulation and analysis
 pandas
 numpy
+pyarrow
 
 # Excel file handling
 openpyxl
 xlsxwriter
 xlrd
 fastexcel
-pyarrow
 
 # Database connectivity
-pyodbc
 sqlalchemy
-ipython-sql
+pyodbc              # SQL Server (activo)
+# psycopg[binary]   # PostgreSQL (descomentar si se usa)
+# oracledb          # Oracle (descomentar si se usa)
+# sshtunnel         # Conexión por túnel SSH (ver README_HELIX §11 Caso B)
 
 # Jupyter and interactive computing
 ipython
+ipykernel
 ipynbname
 
 # Utility libraries
 python-dateutil
-pytz
-urllib3
 python-dotenv
