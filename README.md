@@ -8,7 +8,7 @@ instalar el toolchain del proyecto en tu máquina anfitriona.
 > `src/db/connection.py`, `requirements.txt`, `.env.example` y el `Dockerfile` — cambiar de motor es
 > descomentar (ver [Conexión a SQL](#-conexión-a-sql)).
 
-> **¿Buscas cómo trabajamos día a día (la dinámica Helix ⇄ tú)?** Eso vive en **[`README_HELIX.md`](./README_HELIX.md)**.
+> **¿Buscas cómo trabajamos día a día (la dinámica agente ⇄ tú)?** Eso vive en **[`README_AGENTS.md`](./README_AGENTS.md)**.
 > Este archivo es el *qué es y cómo se instala*.
 
 ---
@@ -119,7 +119,7 @@ detecta el estado del proyecto y actúa solo:
 
 ## 🗄️ Conexión a SQL
 
-El estándar (detallado en [`README_HELIX.md`](./README_HELIX.md) §11) es **solo SQLAlchemy**:
+El estándar (detallado en [`README_AGENTS.md`](./README_AGENTS.md) §11) es **solo SQLAlchemy**:
 
 1. **Credenciales en `.env`** → las lee `src/config/config.py` (prefijo por motor, `MSSQL_`; nunca `DB_`).
 2. **Fábrica de engine en `src/db/connection.py`** → `get_engine_mssql()` arma la URL con `URL.create()`.
@@ -140,7 +140,7 @@ El estándar (detallado en [`README_HELIX.md`](./README_HELIX.md) §11) es **sol
 | Oracle | `oracle+oracledb` | `oracledb` | ninguna en modo *thin* |
 
 > **`MSSQL_NAME` y `MSSQL_PORT` son opcionales**: si los dejas vacíos, `URL.create()` los omite (útil con un DataWarehouse sin una única base de datos).
-> La conexión por **túnel SSH** queda comentada (ver `README_HELIX.md` §11 Caso B); por defecto usamos conexión directa.
+> La conexión por **túnel SSH** queda comentada (ver `README_AGENTS.md` §11 Caso B); por defecto usamos conexión directa.
 
 ---
 
@@ -166,7 +166,7 @@ El estándar (detallado en [`README_HELIX.md`](./README_HELIX.md) §11) es **sol
 ├── .env.example        # plantilla de variables de entorno (copiar a .env)
 ├── requirements.txt    # dependencias (base para pyproject.toml + uv.lock)
 ├── README.md           # este archivo
-└── README_HELIX.md     # el contrato de trabajo (dinámica Helix ⇄ tú)
+└── README_AGENTS.md     # el contrato de trabajo (dinámica agente ⇄ tú)
 ```
 
 **Flujo de trabajo:** `sandbox/` (tanteo) → `tests/` (gate) → `output/` (solo lo verificado). Cada carpeta tiene su `README.md`.
@@ -175,7 +175,7 @@ El estándar (detallado en [`README_HELIX.md`](./README_HELIX.md) §11) es **sol
 
 ## 🧹 Qué se versiona y qué no
 
-**Se versiona:** `README.md`, `README_HELIX.md`, `.devcontainer/*`, `requirements.txt` (o `pyproject.toml`), `uv.lock` cuando exista, `tests/`, `output/`, los `README.md` de cada carpeta, `data/sql/*.sql`.
+**Se versiona:** `README.md`, `README_AGENTS.md`, `.devcontainer/*`, `requirements.txt` (o `pyproject.toml`), `uv.lock` cuando exista, `tests/`, `output/`, los `README.md` de cada carpeta, `data/sql/*.sql`.
 
 **No se versiona:** `.venv/`, `__pycache__/`, `*.pyc`, `.env`, y el **contenido** de `sandbox/`.
 

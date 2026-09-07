@@ -39,7 +39,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # RUN apt-get update && apt-get install -y --no-install-recommends libaio1 \
 #     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 🔒 (OPCIONAL) Conexión por TÚNEL SSH — ver README_HELIX §11 Caso B (por defecto usamos conexión directa).
+# 🔒 (OPCIONAL) Conexión por TÚNEL SSH — ver README_AGENTS §11 Caso B (por defecto usamos conexión directa).
 #   sshtunnel arrastra cryptography, que puede requerir compilar:
 # RUN apt-get update && apt-get install -y --no-install-recommends libffi-dev libssl-dev \
 #     && apt-get clean && rm -rf /var/lib/apt/lists/*

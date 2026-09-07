@@ -48,7 +48,7 @@ def get_engine_mssql() -> Engine:
 #     )
 #     return create_engine(url)
 #
-# PostgreSQL por TÚNEL SSH (conexión indirecta): ver README_HELIX §11 Caso B.
+# PostgreSQL por TÚNEL SSH (conexión indirecta): ver README_AGENTS §11 Caso B.
 # Se abre el túnel antes de crear el engine y se devuelve (engine, tunnel);
 # hay que llamar tunnel.stop() al terminar. Se mantiene comentado a propósito:
 # por defecto usamos conexión DIRECTA.

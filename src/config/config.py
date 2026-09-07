@@ -36,7 +36,7 @@ MSSQL_PORT = int(_mssql_port) if _mssql_port else None
 # _oracle_port = os.getenv("ORACLE_PORT")
 # ORACLE_PORT = int(_oracle_port) if _oracle_port else None
 
-# === (OPCIONAL) Túnel SSH — ver README_HELIX §11 Caso B; por defecto, conexión directa ===
+# === (OPCIONAL) Túnel SSH — ver README_AGENTS §11 Caso B; por defecto, conexión directa ===
 # SSH_HOST = os.getenv("SSH_HOST")
 # SSH_USER = os.getenv("SSH_USER")
 # SSH_PASSWORD = os.getenv("SSH_PASSWORD")
